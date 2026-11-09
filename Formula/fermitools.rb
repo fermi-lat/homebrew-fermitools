@@ -37,11 +37,11 @@ class Fermitools < Formula
     resource("f2c_src").stage do
       system "patch", "-i", buildpath/"externals/f2c/f2c.patch"
       f2c_source = Pathname.pwd
-      python = Formula["python@3.12"].opt_bin/"python3.12"
+      python = formula_opt_bin("python@3.12")
       args = std_cmake_args + %W[
         -DCMAKE_BUILD_TYPE=Release
-        -DCMAKE_C_COMPILER=#{Formula["llvm"].opt_bin}/clang
-        -DCMAKE_CXX_COMPILER=#{Formula["llvm"].opt_bin}/clang++
+        -DCMAKE_C_COMPILER=#{formulat_opt_bin("llvm")}/clang
+        -DCMAKE_CXX_COMPILER=#{formula_opt_bin("llvm")}/clang++
         -DPython3_EXECUTABLE=#{python}
         -DFERMI_PACKAGING=brew
         -DFERMI_INSTALL_PY_SCRIPTS=ON
@@ -67,7 +67,7 @@ class Fermitools < Formula
   end
 
   test do
-    python = Formula["python@3.12"].opt_bin/"python3.12"
+    python = formula_opt_bin("python@3.12")/"python3.12"
     site_packages = lib/"python3.12/site-packages"
     system python, "-c", "import site; site.addsitedir('#{site_packages}'); import pyLikelihood, UnbinnedAnalysis"
     assert_predicate bin/"gtburst", :executable?
