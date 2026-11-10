@@ -19,7 +19,7 @@ jobs:
       - name: Set up Homebrew
         uses: Homebrew/actions/setup-homebrew@main
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.HOMEBREW_TAP_ADMIN_TOKEN }}
 
       - name: Set up git
         uses: Homebrew/actions/git-user-config@main
@@ -33,6 +33,7 @@ jobs:
       - name: Push commits
         uses: Homebrew/actions/git-try-push@main
         with:
+          token: ${{ secrets.HOMEBREW_TAP_ADMIN_TOKEN }}
           branch: main
 
       - name: Delete branch
