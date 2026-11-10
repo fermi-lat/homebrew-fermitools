@@ -33,7 +33,7 @@ jobs:
       - name: Push commits
         uses: Homebrew/actions/git-try-push@main
         with:
-	  token: ${{ secrets.HOMEBREW_TAP_ADMIN_TOKEN }}
+          token: ${{ secrets.HOMEBREW_TAP_ADMIN_TOKEN }}
           branch: main
 
       - name: Delete branch
