@@ -6,8 +6,8 @@ class Fermitools < Formula
   desc "Fermi LAT Science Tools"
   homepage "https://github.com/fermi-lat/ScienceTools"
   url "https://github.com/fermi-lat/ScienceTools.git",
-    tag:      "Fermitools-2.5.57",
-    revision: "6aa378fb9254e30d00046bd8ae60ab75a0d93b2e"
+    tag:      "Fermitools-2.5.60",
+    revision: "83b38cb9fcd388e8d0db4ed36cf4fb1a6e4233c8"
   license "BSD-3-Clause"
   depends_on "cmake" => :build
   depends_on "llvm" => :build
