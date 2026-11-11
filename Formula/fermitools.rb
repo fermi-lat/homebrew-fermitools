@@ -40,7 +40,7 @@ class Fermitools < Formula
       python = formula_opt_bin("python@3.12")
       args = std_cmake_args + %W[
         -DCMAKE_BUILD_TYPE=Release
-        -DCMAKE_C_COMPILER=#{formulat_opt_bin("llvm")}/clang
+        -DCMAKE_C_COMPILER=#{formula_opt_bin("llvm")}/clang
         -DCMAKE_CXX_COMPILER=#{formula_opt_bin("llvm")}/clang++
         -DPython3_EXECUTABLE=#{python}
         -DFERMI_PACKAGING=brew
