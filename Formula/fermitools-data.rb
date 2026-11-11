@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 # Reference files distributed alongside the Science Tools.
+# Formula for building and publishing the fermitools-data tap
 class FermitoolsData < Formula
   desc "Reference data files for the Fermi LAT Science Tools"
   homepage "https://github.com/fermi-lat/fermitools-data"
