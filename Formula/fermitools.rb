@@ -82,6 +82,8 @@ class Fermitools < Formula
   test do
     python = formula_opt_bin("python@3.12")/"python3.12"
     site_packages = lib/"python3.12/site-packages"
+    ENV["FERMI_INST_DIR"] = (opt_share/"fermitools").to_s
+    ENV["FERMI_DIR"] = (opt_share/"fermitools").to_s
     system python, "-c", "import site; site.addsitedir('#{site_packages}'); import pyLikelihood, UnbinnedAnalysis"
     assert_predicate bin/"gtburst", :executable?
   end
