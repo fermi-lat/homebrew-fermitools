@@ -57,8 +57,17 @@ class Fermitools < Formula
 
   def install
     venv = virtualenv_create(libexec, "python3.12")
-    venv.pip_install resources.select { |r| %w[numpy pyyaml].include?(r.name) }
     python = libexec/"bin/python"
+
+    # Build NumPy against Homebrew's OpenBLAS (Accelerate is auto-detected but not linked)
+    resource("numpy").stage do
+      system python, "-m", "pip", "install",
+             *std_pip_args(prefix: false, build_isolation: true),
+             "-Csetup-args=-Dblas=openblas",
+             "-Csetup-args=-Dlapack=openblas",
+             "."
+    end
+    venv.pip_install resource("pyyaml")
 
     resource("healpix_cxx_src").stage do
       system "patch", "-p0", "-i", buildpath/"externals/healpix_cxx/healpix_cxx.patch"
