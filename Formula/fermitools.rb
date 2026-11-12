@@ -61,6 +61,10 @@ class Fermitools < Formula
           -DFETCHCONTENT_SOURCE_DIR_F2C_SRC=#{f2c_source}
           -DFETCHCONTENT_SOURCE_DIR_HEALPIX_CXX_SRC=#{healpix_source}
           -DFETCHCONTENT_FULLY_DISCONNECTED=ON
+          -DOpenMP_ROOT=#{Formula["libomp"].opt_prefix}
+          -DOpenMP_CXX_LIB_NAMES=omp
+          -DOpenMP_C_LIB_NAMES=omp
+          -DOpenMP_omp_LIBRARY=#{Formula["libomp"].opt_lib}/libomp.dylib
         ]
         cd buildpath do
           system "cmake", "-S", ".", "-B", "build", *args
