@@ -27,6 +27,8 @@ class Fermitools < Formula
   depends_on "wcslib"
   depends_on "xerces-c"
 
+  uses_from_macos "curl"
+
   resource "f2c_src" do
     url "https://fermi.gsfc.nasa.gov/ssc/data/analysis/scitools/data/SummerSchool/libf2c.zip"
     sha256 "ca404070e9ce0a9aaa6a71fc7d5489d014ade952c5d6de7efb88de8e24f2e8e0"
@@ -61,11 +63,15 @@ class Fermitools < Formula
           -DFETCHCONTENT_SOURCE_DIR_F2C_SRC=#{f2c_source}
           -DFETCHCONTENT_SOURCE_DIR_HEALPIX_CXX_SRC=#{healpix_source}
           -DFETCHCONTENT_FULLY_DISCONNECTED=ON
-          -DOpenMP_ROOT=#{formula_opt_prefix("libomp")}
-          -DOpenMP_CXX_LIB_NAMES=omp
-          -DOpenMP_C_LIB_NAMES=omp
-          -DOpenMP_omp_LIBRARY=#{formula_opt_lib("libomp")}/libomp.dylib
         ]
+        if OS.mac?
+          args+= %W[
+            -DOpenMP_ROOT=#{formula_opt_prefix("libomp")}
+            -DOpenMP_CXX_LIB_NAMES=omp
+            -DOpenMP_C_LIB_NAMES=omp
+            -DOpenMP_omp_LIBRARY=#{formula_opt_lib("libomp")}/libomp.dylib
+          ]
+        end
         cd buildpath do
           system "cmake", "-S", ".", "-B", "build", *args
           system "cmake", "--build", "build", "--parallel"
@@ -82,8 +88,13 @@ class Fermitools < Formula
   test do
     python = formula_opt_bin("python@3.12")/"python3.12"
     site_packages = lib/"python3.12/site-packages"
+    fermi = opt_share/"fermitools"
+    caldb = fermi/"data/caldb"
     ENV["FERMI_INST_DIR"] = (opt_share/"fermitools").to_s
     ENV["FERMI_DIR"] = (opt_share/"fermitools").to_s
+    ENV["CALDB"] = caldb.to_s
+    ENV["CALDBCONFIG"] = (caldb/"software/tools/caldb.config").to_s
+    ENV["CALDBALIAS"] = (caldb/"software/tools/alias_config.fits").to_s
     system python, "-c", "import site; site.addsitedir('#{site_packages}'); import pyLikelihood, UnbinnedAnalysis"
     assert_predicate bin/"gtburst", :executable?
   end
