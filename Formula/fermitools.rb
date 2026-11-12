@@ -32,7 +32,9 @@ class Fermitools < Formula
   depends_on "xerces-c"
 
   uses_from_macos "curl"
-
+  on_linux do
+    depends_on "patchelf" => :build
+  end
   # Python runtime dependencies (keep in sync with `run:` in recipe/meta.yaml)
   resource "numpy" do
     url "https://files.pythonhosted.org/packages/95/b0/c7453d0b6e2073c3264468b106ee1563750cecc910965e67357e3698c83e/numpy-2.5.4.tar.gz"
