@@ -34,8 +34,12 @@ jobs:
           token: ${{ secrets.HOMEBREW_TAP_ADMIN_TOKEN }}
           branch: main
 
-      - name: Delete branch
+      - name: Close PR and delete branch
         if: github.event.pull_request.head.repo.fork == false
+        continue-on-error: true
         env:
-          BRANCH: ${{ github.event.pull_request.head.ref }}
-        run: git push --delete origin "$BRANCH"
+          GH_TOKEN: ${{ secrets.HOMEBREW_TAP_ADMIN_TOKEN || secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh pr close "$PR_NUMBER" --repo "$GH_REPO" --delete-branch --comment "Bottles published and merged into main."
