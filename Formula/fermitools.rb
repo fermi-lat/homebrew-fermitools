@@ -14,9 +14,10 @@ class Fermitools < Formula
   license "BSD-3-Clause"
 
   bottle do
-    root_url "https://github.com/fermi-lat/homebrew-fermitools/releases/download/fermitools-2.5.69"
-    sha256 cellar: :any, arm64_tahoe:  "93f2ad36d6af36749bf3edc87c67e26ef894073cc80fa1e61e997f80734ec6c4"
-    sha256 cellar: :any, x86_64_linux: "8037cd7763ac7208c9242fc6dc010083141a87adad2c6f344271ae3afaa43823"
+    root_url "https://github.com/fermi-lat/homebrew-fermitools/releases/download/fermitools-2.5.70"
+    rebuild 1
+    sha256 cellar: :any, arm64_tahoe:  "356b36247afe1c163382501f176e2be200083f51f8888d0beade97199f617901"
+    sha256 cellar: :any, x86_64_linux: "81cd97ba7f819e93c0791c501a49153e81660c00bf4f0e9d45eaf32d1e4c46e0"
   end
 
   depends_on "cmake" => :build
