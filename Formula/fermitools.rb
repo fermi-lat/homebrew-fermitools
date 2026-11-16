@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 # Homebrew formula for the Fermi LAT Science Tools
-
+# Synced with 2.5.70
 class Fermitools < Formula
   include Language::Python::Virtualenv
 
