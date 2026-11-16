@@ -8,15 +8,9 @@ class Fermitools < Formula
   desc "Fermi LAT Science Tools"
   homepage "https://github.com/fermi-lat/ScienceTools"
   url "https://github.com/fermi-lat/ScienceTools.git",
-      tag:      "Fermitools-2.5.67",
-      revision: "f4aae15729bb79a75ab4d193485b5ab7694f8476"
+      tag:      "Fermitools-2.5.69",
+      revision: "2812455875789c3683a4b0731eb31ea63c4e14bc"
   license "BSD-3-Clause"
-
-  bottle do
-    root_url "https://github.com/fermi-lat/homebrew-fermitools/releases/download/fermitools-2.5.67"
-    sha256 cellar: :any, arm64_tahoe:  "65acfc5160a442ddec3390f43d28c85926795b92590ea432dc7cb4f191cf24e1"
-    sha256 cellar: :any, x86_64_linux: "8f8e5f39d8afd5c837183b989a8459f41e58fbb4368218fd5a5bd80e86eb1c6d"
-  end
 
   depends_on "cmake" => :build
   depends_on "llvm" => :build
