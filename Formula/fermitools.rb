@@ -1,24 +1,16 @@
 # typed: strict
 # frozen_string_literal: true
 
-# Homebrew formula for the Fermi LAT Science Tools
-# Synced with 2.5.70
+# Homebrew formula for the Fermi LAT Science Tools.
 class Fermitools < Formula
   include Language::Python::Virtualenv
 
   desc "Fermi LAT Science Tools"
   homepage "https://github.com/fermi-lat/ScienceTools"
   url "https://github.com/fermi-lat/ScienceTools.git",
-      tag:      "Fermitools-2.5.70",
-      revision: "62bb5f7ee9584fd8a33a5a7d0257d11a0dcab623"
+      tag:      "Fermitools-2.5.72",
+      revision: "37d16653db726fb5bc0b730d88b10f4350895484" 
   license "BSD-3-Clause"
-
-  bottle do
-    root_url "https://github.com/fermi-lat/homebrew-fermitools/releases/download/fermitools-2.5.70"
-    rebuild 1
-    sha256 cellar: :any, arm64_tahoe:  "356b36247afe1c163382501f176e2be200083f51f8888d0beade97199f617901"
-    sha256 cellar: :any, x86_64_linux: "81cd97ba7f819e93c0791c501a49153e81660c00bf4f0e9d45eaf32d1e4c46e0"
-  end
 
   depends_on "cmake" => :build
   depends_on "llvm" => :build
@@ -88,27 +80,18 @@ class Fermitools < Formula
         f2c_source = Pathname.pwd
         args = std_cmake_args + %W[
           -DCMAKE_BUILD_TYPE=Release
-          -DCMAKE_C_COMPILER=#{formula_opt_bin("llvm")}/clang
-          -DCMAKE_CXX_COMPILER=#{formula_opt_bin("llvm")}/clang++
           -DPython3_EXECUTABLE=#{python}
           -DFERMI_PACKAGING=brew
           -DFERMI_INSTALL_PY_SCRIPTS=ON
           -DFERMI_RUNTIME_PREFIX=#{HOMEBREW_PREFIX}
-          -DUSE_SYSTEM_CFITSIO=ON
-          -DUSE_SYSTEM_CPPUNIT=ON
-          -DUSE_SYSTEM_FFTW=ON
-          -DUSE_SYSTEM_GSL=ON
-          -DUSE_SYSTEM_WCSLIB=ON
+          -DUSE_SYSTEM_DEPS=ON
           -DFETCHCONTENT_SOURCE_DIR_F2C_SRC=#{f2c_source}
           -DFETCHCONTENT_SOURCE_DIR_HEALPIX_CXX_SRC=#{healpix_source}
           -DFETCHCONTENT_FULLY_DISCONNECTED=ON
         ]
         if OS.mac?
           args += %W[
-            -DOpenMP_ROOT=#{formula_opt_prefix("libomp")}
-            -DOpenMP_CXX_LIB_NAMES=omp
-            -DOpenMP_C_LIB_NAMES=omp
-            -DOpenMP_omp_LIBRARY=#{formula_opt_lib("libomp")}/libomp.dylib
+            -DOpenMP_ROOT=#{Formula["libomp"].opt_prefix}
           ]
         end
         cd buildpath do
