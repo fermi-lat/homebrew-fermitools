@@ -2,6 +2,8 @@
 # frozen_string_literal: true
 
 # Homebrew formula for the Fermi LAT Science Tools.
+# Development snapshot (dev branch): bump `version` for every new snapshot so its
+# bottles are published to a separate fermitools-<version> release.
 class Fermitools < Formula
   include Language::Python::Virtualenv
 
@@ -10,6 +12,7 @@ class Fermitools < Formula
   url "https://github.com/fermi-lat/ScienceTools.git",
       tag:      "Fermitools-2.5.72",
       revision: "37d16653db726fb5bc0b730d88b10f4350895484"
+  version "2.5.72-dev.20261119"
   license "BSD-3-Clause"
 
   depends_on "cmake" => :build
