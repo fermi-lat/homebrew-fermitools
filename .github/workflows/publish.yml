@@ -22,17 +22,25 @@ jobs:
       - name: Set up git
         uses: Homebrew/actions/git-user-config@main
 
+      - name: Check out PR base branch
+        env:
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+        run: |
+          cd "$(brew --repo "$GITHUB_REPOSITORY")"
+          git fetch origin "$BASE_REF"
+          git checkout -B "$BASE_REF" "origin/$BASE_REF"
+
       - name: Pull bottles
         env:
           HOMEBREW_GITHUB_API_TOKEN: ${{ secrets.HOMEBREW_TAP_ADMIN_TOKEN }}
           PULL_REQUEST: ${{ github.event.pull_request.number }}
-        run: brew pr-pull --debug --tap="$GITHUB_REPOSITORY" "$PULL_REQUEST"
+        run: brew pr-pull --debug --branch-okay --tap="$GITHUB_REPOSITORY" "$PULL_REQUEST"
 
       - name: Push commits
         uses: Homebrew/actions/git-try-push@main
         with:
           token: ${{ secrets.HOMEBREW_TAP_ADMIN_TOKEN }}
-          branch: main
+          branch: ${{ github.event.pull_request.base.ref }}
 
       - name: Close PR and delete branch
         if: github.event.pull_request.head.repo.fork == false
@@ -41,5 +49,6 @@ jobs:
           GH_TOKEN: ${{ secrets.HOMEBREW_TAP_ADMIN_TOKEN || secrets.GITHUB_TOKEN }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
           GH_REPO: ${{ github.repository }}
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
         run: |
-          gh pr close "$PR_NUMBER" --repo "$GH_REPO" --delete-branch --comment "Bottles published and merged into main."
+          gh pr close "$PR_NUMBER" --repo "$GH_REPO" --delete-branch --comment "Bottles published and merged into $BASE_REF."
